@@ -22,8 +22,8 @@ This README describes five small, focused learning projects that live under the 
   - Flask‑01‑02
   - Flask‑03‑04
   - Flask‑05
-  - Project‑101 (EC2 via CloudFormation)
-  - Project‑006 (S3 + CloudFront + Route 53)
+  - Project‑101 Kittens Carousel static website (EC2 via CloudFormation)
+  - Project‑006 Kittens Carousel static website (S3 + CloudFront + Route 53)
 
 - Conventional Commits (suggested)
 - Troubleshooting
