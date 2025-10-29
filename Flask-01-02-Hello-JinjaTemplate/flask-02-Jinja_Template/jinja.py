@@ -16,5 +16,5 @@ def number():
 
 
 if __name__== "__main__":
-     # app.run(host= '0.0.0.0', port=80)  # for ec2 instances
-     app.run(debug=True, port=3000) # for localhost
+     app.run(host= '0.0.0.0', port=80)  # for ec2 instances
+    #  app.run(debug=True, port=3000)  for localhost
