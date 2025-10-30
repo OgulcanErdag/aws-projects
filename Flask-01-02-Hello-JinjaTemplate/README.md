@@ -47,7 +47,6 @@ Followings are some of features of Flask Framework;
 
 - Many extensions are available to enhance its functionalities.
 
-
 ## Part 2 - Write a Simple Hello World Web Application on GitHub Repo
 
 - Create folder named `flask-01-02-hello-world-app-Jinja-Template` within your repo under `python/hands-on` folder and go under it.
@@ -64,15 +63,15 @@ Followings are some of features of Flask Framework;
 
 - Assign a URL route the `hello` function with decorator `@app.route('/')`.
 
-- Create a function `second` which returns a string `This is the second page` and assign a URL route the `second` function with decorator `@app.route('/second')`. 
+- Create a function `second` which returns a string `This is the second page` and assign a URL route the `second` function with decorator `@app.route('/second')`.
 
-- Create a function `third` which returns a string `This is the subpage of third page` and assign a URL route the `third` function with decorator `@app.route('/third/subthird')`. 
+- Create a function `third` which returns a string `This is the subpage of third page` and assign a URL route the `third` function with decorator `@app.route('/third/subthird')`.
 
 - Create a dynamic url which takes id number dynamically and return with a massage which show id of page.
 
 - run the application in debug mode
 
-- Connect the Hello World application from the web browser with `localhost:30000` or `127.0.0.1:30000`
+- Connect the Hello World application from the web browser with `localhost:3000` or `127.0.0.1:3000`
 
 - to reach application from anywhere on port 8081, change debug mode
 
@@ -81,7 +80,6 @@ Followings are some of features of Flask Framework;
 - Add and commit all changes on local repo
 
 - Push `hello-world-app.py` to your remote repo
-
 
 ## Part 3 - Write a Simple Hello World Web Application with Jinja template on GitHub Repo
 
@@ -103,7 +101,7 @@ Followings are some of features of Flask Framework;
 
 - run the application in debug mode
 
-- Connect the Hello World application from the web browser with `localhost:30000` or `127.0.0.1:30000`
+- Connect the Hello World application from the web browser with `localhost:3000` or `127.0.0.1:3000`
 
 - Save the complete code as `jinja.py` file under `flask-02-Jinja_Template` folder.
 
