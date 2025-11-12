@@ -1,3 +1,5 @@
+![AWS Log](./aws.webp)
+
 # AWS Projects — Flask Hands‑ons & CloudFront Kittens
 
 This README describes five small, focused learning projects that live under the **AWS Projects** folder. It clarifies what each project is, which AWS services or Flask topics it covers, what files are expected, and how to verify success. It is intentionally free of code snippets so it can serve as a clean, high‑level guide.
