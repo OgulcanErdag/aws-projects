@@ -1,0 +1,70 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  This CloudFormation Template is written to run Kittens Carousel Static Website on EC2. 
+  Kittens Carousel Static Website will be deployed on Amazon Linux 2023 EC2 Instance with custom 
+  security group which allows http connections on port 80 and ssh port 22 from anywhere. Kittens Carousel Static Website
+  will be downloaded from my Public Github repository, then be deployed on Apache Web Server.  
+Parameters:
+  keyPair:
+    Description: Choose your Key
+    Type: AWS::EC2::KeyPair::KeyName
+    Default: first-key
+
+  InstanceType:
+    Description: Enter t3.micro, t3.small, or t2.micro. Default is t3.micro.
+    Type: String
+    Default: t3.micro
+    AllowedValues:
+      - t2.micro
+      - t3.small
+      - t3.micro
+  imageID:
+    Description: Name of a Parameter Store parameter that stores the ID of the Amazon Machine Image (AMI).
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/al2023-ami-kernel-6.1-x86_64
+  
+Resources:
+  mysecGrp:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: ssh and http # Required
+      GroupName: betul-kitten-project-scgrp
+      SecurityGroupIngress: 
+        - CidrIp: 0.0.0.0/0
+          FromPort: 80
+          IpProtocol: tcp
+          ToPort: 80
+        - CidrIp: 0.0.0.0/0
+          FromPort: 22
+          IpProtocol: tcp
+          ToPort: 22
+  MyWebServer:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref imageID
+      InstanceType: !Ref InstanceType
+      KeyName: !Ref keyPair
+      SecurityGroupIds: 
+        - !Ref mysecGrp
+      Tags: 
+        - Key: Name
+          Value: !Sub Web Server of ${AWS::StackName}
+      UserData: !Base64 | 
+        #! /bin/bash
+        dnf update -y
+        dnf install httpd -y
+        chmod 777 /var/www/html
+        cd /var/www/html
+        dnf install git -y 
+        git clone https://github.com/OgulcanErdag/aws-projects.git
+        mv aws-projects/101-kittens-carousel-static-website-ec2/static-web/* . 
+        systemctl start httpd
+        systemctl enable httpd
+
+Outputs:
+  webSiteURL:
+    Description: URL of Website 
+    Value: !Sub 
+      - http://${PublicDNS}
+      - PublicDNS: !GetAtt MyWebServer.PublicDnsName
+  

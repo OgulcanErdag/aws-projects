@@ -1,13 +1,12 @@
-![AWS Log](./aws.webp)
-
 # AWS Projects — Flask Hands‑ons & CloudFront Kittens
 
-This README describes four small, focused learning projects that live under the **AWS Projects** folder. It clarifies what each project is, which AWS services or Flask topics it covers, what files are expected, and how to verify success. It is intentionally free of code snippets so it can serve as a clean, high‑level guide.
+This README describes five small, focused learning projects that live under the **AWS Projects** folder. It clarifies what each project is, which AWS services or Flask topics it covers, what files are expected, and how to verify success. It is intentionally free of code snippets so it can serve as a clean, high‑level guide.
 
 1. **Hands‑on Flask‑01‑02:** First Flask app, “Hello, World!”, and basic Jinja templates
 2. **Hands‑on Flask‑03‑04:** Jinja `if`/`for`, routing patterns, and handling GET/POST
 3. **Hands‑on Flask‑05:** Using SQL with a Flask web app (SQLAlchemy‑based)
-4. **Project‑006:** Kittens Carousel static website on S3 + CloudFront + Route 53 (provisioned with CloudFormation)
+4. **Project‑101:** Kittens Carousel static website on **EC2** (provisioned with CloudFormation)
+5. **Project‑006:** Kittens Carousel static website on **S3 + CloudFront + Route 53** (provisioned with CloudFormation)
 
 ---
 
@@ -20,6 +19,7 @@ This README describes four small, focused learning projects that live under the 
   - Flask‑01‑02
   - Flask‑03‑04
   - Flask‑05
+  - Project‑101 (EC2 via CloudFormation)
   - Project‑006 (S3 + CloudFront + Route 53)
 
 - Conventional Commits (suggested)
@@ -33,7 +33,7 @@ This README describes four small, focused learning projects that live under the 
 - Python 3.10 or newer
 - pip
 - Git
-- AWS account with permissions for S3, CloudFront, Route 53, and CloudFormation
+- AWS account with permissions for EC2, S3, CloudFront, Route 53, and CloudFormation
 - (Optional) AWS CLI v2 configured for deployments
 - (Optional) Virtual environments (venv) for Python isolation
 
@@ -54,6 +54,10 @@ This README describes four small, focused learning projects that live under the 
   - **Flask‑05‑SQLAlchemy**
 
     - `app.py`, `models.py`, `requirements.txt`, `templates/` (e.g., listing page)
+
+  - **Project‑101‑Kittens‑Carousel‑EC2**
+
+    - `readme.md` (project definition), `cfn-template.yml` (CloudFormation), `static-web/` (HTML + images)
 
   - **Project‑006‑Kittens‑Carousel‑CFN**
 
@@ -145,6 +149,49 @@ File names are suggestions; keep a consistent naming scheme across projects.
 
 ---
 
+### Project‑101: Kittens Carousel (EC2 via CloudFormation)
+
+**Title:** Static website deployment on a single EC2 instance using Apache, secured by a Security Group, provisioned via CloudFormation
+
+**Goals**
+
+- Launch an EC2 instance (e.g., `t3.micro`) running Amazon Linux 2023
+- Install and configure Apache via User Data
+- Download and serve the static website from the repository
+- Open HTTP (80) to the internet using a Security Group
+- Tag resources (e.g., `Web Server of <StackName>`) and expose the site URL as a stack output
+
+**Architecture at a glance**
+
+- **Amazon EC2**: hosts the web server (Apache)
+- **Security Group**: allows inbound HTTP from anywhere; restrict other traffic
+- **AWS CloudFormation**: declaratively creates the instance, security group, tags, and stack outputs
+
+**Inputs (typical)**
+
+- EC2 key pair name
+- Instance type (default `t3.micro`)
+- AMI or SSM parameter for Amazon Linux 2023
+- VPC/Subnet and Security Group settings
+
+**Deployment Outline**
+
+1. Prepare the CloudFormation template (`cfn-template.yml`) with parameters for key pair, instance type, and AMI.
+2. Ensure inbound port 80 is allowed on the instance Security Group.
+3. Use User Data to install Apache and fetch the site files from the repository.
+4. Create the stack; confirm the output exposes the website URL (typically the instance Public DNS).
+5. Open the URL in a browser and verify `index.html` loads as the homepage.
+
+**Acceptance Criteria**
+
+- Stack completes successfully and creates a reachable EC2 web server
+- Landing page is `index.html`
+- The stack outputs include the website URL
+- Resource tags are set as specified
+- Instance runs Amazon Linux 2023
+
+---
+
 ### Project‑006: Kittens Carousel (S3 + CloudFront + Route 53 via CloudFormation)
 
 **Title:** Static website deployment using CloudFront, S3, and Route 53 (Infrastructure as Code)
@@ -195,6 +242,7 @@ File names are suggestions; keep a consistent naming scheme across projects.
 
 - `feat(flask-03-04): add POST add-item flow`
 - `fix(flask-05): persist color field in list view`
+- `docs(project-101): add EC2 deployment outline`
 - `docs(project-006): add high-level deploy outline`
 - `chore: bump Flask version`
 
@@ -214,13 +262,14 @@ File names are suggestions; keep a consistent naming scheme across projects.
 
 **CloudFormation fails**
 
-- Hosted Zone must match the target domain
-- Custom TLS certificates for CloudFront live in `us‑east‑1`
-- S3 bucket names are globally unique; pick an unused name
+- Hosted Zone must match the target domain (for Project‑006)
+- Custom TLS certificates for CloudFront live in `us‑east‑1` (for Project‑006)
+- S3 bucket names are globally unique; pick an unused name (for Project‑006)
+- EC2 AMI/instance type or User Data errors can prevent instance launch (for Project‑101)
 
 **Blocked object access**
 
-- Expected when using OAC/OAI. Always access content via CloudFront or your domain.
+- Expected when using OAC/OAI for S3. Always access content via CloudFront or your domain (Project‑006).
 
 ---
 
