@@ -1,8 +1,9 @@
 WARNING!!!
 
-- Ok! First of all, we need to launch an EC2 instance which has Amazon Linux 2 AMI to execute commands in on hand. Because, commands can change based on operating systems. We'll attach security group which allows ssh from anywhere.
+- Ok! First of all, we need to launch an EC2 instance which has Amazon Linux 2023 AMI to execute commands in on hand. Because, commands can change based on operating systems. We'll attach security group which allows ssh from anywhere.
 
 - We should update yum package and install AWS CLI v2. (for more information to install AWS CLI v2 please look at https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html)
+
 ```bash
 sudo yum update -y
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
@@ -12,6 +13,7 @@ aws --version
 ```
 
 - Write your credentials using this command
+
 ```bash
 aws configure
 ```
@@ -27,6 +29,7 @@ aws ec2 create-security-group \
 ```
 
 - We can check the security Group with these commands
+
 ```bash
 aws ec2 describe-security-groups --group-names ogulcan_roman_numbers_converter_sec_grp
 ```
@@ -49,13 +52,15 @@ aws ec2 authorize-security-group-ingress \
 
 3. After creating security Groups, We'll create our EC2 which has latest AMI id. to do this, we need to find out latest AMI with AWS system manager (ssm) command
 
-- This command is to get description of latest AMI ID (Linux 2) that we use.
+- This command is to get description of latest AMI ID (Linux 2023) that we use.
+
 ```bash
 
 aws ssm get-parameters --names /aws/service/ami-amazon-linux-latest/al2023-ami-kernel-6.1-x86_64 --region us-east-1
 ```
 
-- This command is to run querry to get latest AMI ID (Linux 2)
+- This command is to run querry to get latest AMI ID (Amazon Linux 2023)
+
 ```bash
 
 aws ssm get-parameters --names /aws/service/ami-amazon-linux-latest/al2023-ami-kernel-6.1-x86_64 --query 'Parameters[0].[Value]' --output text
@@ -68,21 +73,26 @@ LATEST_AMI=$(aws ssm get-parameters --names /aws/service/ami-amazon-linux-latest
 ```
 
 - Now we can run the instance with CLI command. (Do not forget to create userdata.sh under "/home/ec2-user/" folder before run this command)
+
 ```bash
+
 touch userdata.sh
 vim userdata.sh
 
 #! /bin/bash
-yum update -y
-yum install python3
+dnf update -y
+dnf install python3 -y
+dnf install python3-pip -y
 pip3 install flask
-yum install git -y
+dnf install git -y
+FOLDER="https://raw.githubusercontent.com/OgulcanErdag/aws-projects/refs/heads/main/001-roman-numerals-converter/templates"
 cd /home/ec2-user
-wget -P templates https://raw.githubusercontent.com/OgulcanErdag/aws-projects/refs/heads/main/001-roman-numerals-converter/templates/index.html
-wget -P templates https://raw.githubusercontent.com/OgulcanErdag/aws-projects/refs/heads/main/001-roman-numerals-converter/templates/result.html
+wget -P templates ${FOLDER}/index.html
+wget -P templates ${FOLDER}/result.html
 wget https://raw.githubusercontent.com/OgulcanErdag/aws-projects/refs/heads/main/001-roman-numerals-converter/roman-numerals-converter-app.py
 python3 roman-numerals-converter-app.py
 ```
+
 ```bash
 aws ec2 run-instances --image-id $LATEST_AMI --count 1 --instance-type t3.micro --key-name first-key --security-groups ogulcan_roman_numbers_converter_sec_grp --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=ogulcan_roman_numbers}]' --user-data file:///home/ec2-user/userdata.sh
 or
@@ -98,12 +108,14 @@ aws ec2 run-instances \
 ```
 
 - To see the each instances Ip we'll use describe instance CLI command
+
 ```bash
 aws ec2 describe-instances --filters "Name=tag:Name,Values=
 ogulcan_roman_numbers"
 ```
 
 - You can run the query to find Public IP and instance_id of instances:
+
 ```bash
 aws ec2 describe-instances --filters "Name=tag:Name,Values=ogulcan_roman_numbers" --query 'Reservations[].Instances[].PublicIpAddress[]'
 
@@ -111,18 +123,25 @@ aws ec2 describe-instances --filters "Name=tag:Name,Values=ogulcan_roman_numbers
 ```
 
 - To delete instances
-```bash 
-aws ec2 terminate-instances --instance-ids <We have already learned this id with query on above>
+
+```bash
+aws ec2 terminate-instances --instance-ids <We have already learned this id with query on above
 ```
+
 - To delete security groups
+
 ```bash
 aws ec2 delete-security-group --group-name ogulcan_roman_numbers_converter_sec_grp
 ```
-# aws ec2 create-tags --resources i-5203422c --tags Key=Name,Value=MyInstance
-# https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html
-# https://awscli.amazonaws.com/v2/documentation/api/latest/reference/ec2/run-instances.html
-# ResourceType=string,Tags=[{Key=string,Value=string},{Key=string,Value=string}]
-# https://aws.amazon.com/blogs/compute/query-for-the-latest-amazon-linux-ami-ids-using-aws-systems-manager-parameter-store/
 
+# aws ec2 create-tags --resources i-5203422c --tags Key=Name,Value=MyInstance
+
+# https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html
+
+# https://awscli.amazonaws.com/v2/documentation/api/latest/reference/ec2/run-instances.html
+
+# ResourceType=string,Tags=[{Key=string,Value=string},{Key=string,Value=string}]
+
+# https://aws.amazon.com/blogs/compute/query-for-the-latest-amazon-linux-ami-ids-using-aws-systems-manager-parameter-store/
 
 # aws ec2 run-instances --image-id ami-xxxxxxxx --count 1 --instance-type t2.micro --key-name MyKeyPair --security-group-ids sg-903004f8 --subnet-id subnet-6e7f829e
