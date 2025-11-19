@@ -18,6 +18,7 @@ This README describes five small, focused learning projects that live under the 
 - Recommended Folder Structure
 - Project Summaries
 
+  - Project-001 — Roman Numerals Converter (Flask + EC2 + CFN)
   - Flask‑01‑02
   - Flask‑03‑04
   - Flask‑05
@@ -65,6 +66,10 @@ This README describes five small, focused learning projects that live under the 
 
     - `site/` (static assets and `index.html`)
     - `cloudformation/` (infrastructure templates)
+
+  - **Project-001 — Roman Numerals Converter (Flask + EC2 + CFN)**
+
+    - `readme.md` (project definition), `cfn-template.yml` (CloudFormation), `static-web/` (HTML images)
 
 File names are suggestions; keep a consistent naming scheme across projects.
 

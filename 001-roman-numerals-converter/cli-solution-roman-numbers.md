@@ -110,8 +110,7 @@ aws ec2 run-instances \
 - To see the each instances Ip we'll use describe instance CLI command
 
 ```bash
-aws ec2 describe-instances --filters "Name=tag:Name,Values=
-ogulcan_roman_numbers"
+aws ec2 describe-instances --filters "Name=tag:Name,Values=ogulcan_roman_numbers"
 ```
 
 - You can run the query to find Public IP and instance_id of instances:
