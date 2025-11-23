@@ -252,6 +252,9 @@ File names are suggestions; keep a consistent naming scheme across projects.
 - `docs(project-101): add EC2 deployment outline`
 - `docs(project-006): add high-level deploy outline`
 - `chore: bump Flask version`
+- `refactor(flask-05): clean DB init logic`
+- `style(project-006): reorganize folder structure`
+- `ci: add workflow to validate CFN templates`
 
 ---
 
