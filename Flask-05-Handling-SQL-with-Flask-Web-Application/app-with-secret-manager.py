@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 # Function to retrieve secrets from AWS Secrets Manager
 def get_secret():
-    secret_name = "ogulcan-flask-credentials"
+    secret_name = "ogulcan-flask-credentials13"
     region_name = "us-east-1"
 
     session = boto3.session.Session()
@@ -60,7 +60,7 @@ CREATE TABLE users (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 """
 data = """
-INSERT INTO clarusway.users 
+INSERT INTO ondia.users 
 VALUES 
     ("caner", "caner@amazon.com"),
     ("hasan", "hasan@google.com"),
@@ -141,4 +141,4 @@ def add_email():
 # Add a statement to run the Flask application which can be reached from any host on port 80.
 if __name__ == '__main__':
     #app.run(debug=True)
-    app.run(host='0.0.0.0', port=80)
+    app.run(host='0.0.0.0', port=8080)

@@ -22,9 +22,9 @@ At the end of the this extra hands-on training, students will be able to;
 
 ```
 - Engine option         : MySQL
-- Version               : 8.0.32
+- Version               : 8.0.43
 - Template              : Free tier
-- DB instance class     : db.t2.micro
+- DB instance class     : db.t3.micro
 - Publicly accessible   : ***Yes
 - Master username       : admin
 - Master password       : Clarusway_1
@@ -37,7 +37,7 @@ At the end of the this extra hands-on training, students will be able to;
 - Click on "Store a new Secret"
 
   Choose secret type: `Credentials for Amazon RDS database`
-  Credentials: - User name: `admin` - Password: `Clarusway_1`
+  Credentials: - User name: `admin` - Password: `demo_1`
   Encryption key: `Keep it as is`
   Database: `Choose the database you created`
   Secret name and description: `aws-flask-demo-credential`
@@ -57,7 +57,7 @@ Role name : `Secret_Manager_EC2`
 
 - Create if you don't have any EC2 instance.
 
-  Instance : `t2.micro`
+  Instance : `t3.micro`
   Image : `Amazon 2023 AMI`
   Security Group : `SSH + HTTP + 8080 >>>>.0.0.0.0/0`
   IAM Profile : `Secret_Manager_EC2`
@@ -71,11 +71,19 @@ Role name : `Secret_Manager_EC2`
 ```
 sudo dnf update -y
 sudo dnf install python3 -y
-sudo dnf install python-pip
+sudo dnf install python-pip -y
+
 sudo pip3 install Flask==2.3.3
+
 pip3 install flask-mysql
-pip3 install sqlalchemy
+sudo pip3 install Flask-MySQL
+
+pip3 install Flask-SQLAlchemy
+sudo pip3 install flask_sqlalchemy
+
 pip3 install boto3
+sudo pip3 install boto3
+
 sudo dnf install git -y
 
 ```
@@ -90,6 +98,6 @@ git clone [your public repo]
 
 - Run the code and show the connection between RDS database and Flask
 
-http://<PublicIpofınstance>:80
+http://<PublicIpofınstance>:8080
 
 - Terminate the Instance and the Secret
