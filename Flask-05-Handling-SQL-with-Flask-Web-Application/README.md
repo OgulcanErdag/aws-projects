@@ -89,9 +89,9 @@ uses template files named `add-email.html` given under `templates` folder and  i
 
 ```
 - Engine option         : MySQL
-- Version               : 8.0.35
+- Version               : 8.0.43
 - Template              : Free tier
-- DB instance class     : db.t2.micro
+- DB instance class     : db.t3.micro
 - Publicly accessible   : ***Yes
 - Master username       : admin
 - Master password       : Demo_1
