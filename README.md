@@ -19,9 +19,9 @@ This README describes five small, focused learning projects that live under the 
 - Project Summaries
 
   - Project-001 — Roman Numerals Converter (Flask + EC2 + CFN)
-  - Flask‑01‑02
-  - Flask‑03‑04
-  - Flask‑05
+  - Flask‑01‑02-Hello-JinjaTemplate
+  - Flask‑03‑04-If-Handling-Routes-and-Get-Post-Methods
+  - Flask‑05 Handling-SQL-with-Flask-Web-Application
   - Project‑101 Kittens Carousel static website (EC2 via CloudFormation)
   - Project‑006 Kittens Carousel static website (S3 + CloudFront + Route 53)
 
