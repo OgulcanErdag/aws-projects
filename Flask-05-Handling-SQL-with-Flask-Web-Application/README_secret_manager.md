@@ -27,8 +27,8 @@ At the end of the this extra hands-on training, students will be able to;
 - DB instance class     : db.t3.micro
 - Publicly accessible   : ***Yes
 - Master username       : admin
-- Master password       : Clarusway_1
-- Initial DB name       : clarusway
+- Master password       : Ondia_13
+- Initial DB name       : ondia
 
 ```
 
